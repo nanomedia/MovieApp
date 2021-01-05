@@ -1,0 +1,45 @@
+<div class="container" style="margin-top: 100px">
+  <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="text-center mb-4">
+      <h4 class="h3 mb-3 font-weight-normal">Login Form</h4>
+    </div>
+
+    <div class="form-label-group">
+      <input
+        type="email"
+        id="inputEmail"
+        formControlName="userName"
+        class="form-control"
+        placeholder="User name"
+        required=""
+        autofocus=""
+      />
+      <label for="inputEmail">User name</label>
+      <span class="p-invalid" *ngIf="isInValidField('email')">
+        User Name is not valid
+      </span>
+    </div>
+
+    <div class="form-label-group">
+      <input
+        formControlName="password"
+        type="password"
+        id="inputPassword"
+        class="form-control"
+        placeholder="Password"
+        required=""
+      />
+      <label for="inputPassword">Password</label>
+      <span class="p-invalid" *ngIf="isInValidField('password')">
+        Password is required
+      </span>
+    </div>
+    <button
+      [disabled]="loginForm.invalid"
+      class="btn btn-lg btn-primary btn-block"
+      type="submit"
+    >
+      Sign in
+    </button>
+  </form>
+</div>

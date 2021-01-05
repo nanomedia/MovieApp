@@ -1,0 +1,52 @@
+<div class="card h-100 shadow-sm">
+  <div class="image position-relative">
+    <img
+      class="img-fluid bg-info"
+      [src]="posterPath + 'w500' + movie.backdropPath"
+    />
+    <div class="d-flex align-items-center justify-content-center hover-overlay">
+      <a [routerLink]="['/movies', movie.id]" class="btn btn-sm btn-primary">
+        <i class="fa fa-search"></i>
+        &nbsp;Info
+      </a>
+    </div>
+  </div>
+
+  <div class="card-body d-flex flex-column">
+    <a>
+      <h6 class="text-uppercase">
+        {{ movie.originalTitle }}
+      </h6>
+    </a>
+    <div class="mb-2">
+      <b>Release Date:</b> {{ movie.releaseDate | date: "mediumDate" }}
+    </div>
+    <div>
+      <ng-container *ngIf="isMovieWithWating">
+        <rating
+          [(ngModel)]="rate"
+          [max]="10"
+          [readonly]="false"
+          (click)="setRating()"
+        ></rating>
+        <strong> (Rate {{ movie.rating }}) </strong>
+
+        <div class="mt-3">
+          <button type="button" (click)="remove()" class="btn btn-danger btn-block">
+            <i class="fa fa-deleted"></i>
+            &nbsp;Remove
+          </button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!isMovieWithWating">
+        <rating
+          [(ngModel)]="movie.voteAverage"
+          [max]="10"
+          [readonly]="true"
+        ></rating>
+        <br />
+        {{ movie.voteCount }} votes
+      </ng-container>
+    </div>
+  </div>
+</div>

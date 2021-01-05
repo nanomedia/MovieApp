@@ -1,0 +1,128 @@
+<div class="container" style="margin-top: 100px">
+  <form [formGroup]="searchForm" (ngSubmit)="searchMovie()">
+    <div class="form-row">
+      <ng-container *ngIf="searchForm.value.searchOption == '1'">
+        <div class="col-md-8">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Movie Name"
+          />
+        </div>
+      </ng-container>
+      <ng-container *ngIf="searchForm.value.searchOption == '2'">
+        <div class="col-md-8">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              formControlName="personsFilter"
+              placeholder="Search"
+              [readonly]="personsReadOnly"
+              [typeahead]="personsResult$"
+              [typeaheadAsync]="true"
+              typeaheadOptionField="name"
+              [typeaheadScrollable]="true"
+              [typeaheadOptionsInScrollableView]="5"
+              (typeaheadOnSelect)="onPersonSelect($event)"
+              (typeaheadLoading)="changeTypeaheadLoading($event)"
+            />
+            <div class="input-group-append">
+              <button
+                [disabled]="!personsReadOnly"
+                class="btn btn-secondary"
+                type="button"
+                (click)="cleanSearchFormControls('persons')"
+              >
+                <i class="fa fa-eraser"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="col-md-4">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="By release date"
+              [bsConfig]="{ rangeInputFormat: 'DD/MM/YYYY' }"
+              #dp="bsDaterangepicker"
+              [readonly]="true"
+              bsDaterangepicker
+              formControlName="releaseDate"
+              (bsValueChange)="setReleasedDates($event)"
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-primary"
+                (click)="dp.toggle()"
+                type="button"
+              >
+                <i class="fa fa-calendar"></i>
+              </button>
+              <button
+                class="btn btn-secondary"
+                (click)="cleanSearchFormControls('releaseDate')"
+                type="button"
+              >
+                <i class="fa fa-eraser"></i>
+              </button>
+            </div>
+          </div>
+        </div> -->
+      </ng-container>
+
+      <div class="col-md-2">
+        <select
+          (change)="onOptionsSelected()"
+          formControlName="searchOption"
+          class="custom-select"
+        >
+          <option *ngFor="let option of searchOption" [ngValue]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" type="submit">Search Movie</button>
+      </div>
+    </div>
+  </form>
+  <ng-container *ngIf="movieContainer.totalPages != undefined">
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="d-flex justify-content-left">
+          <app-paging-header
+            [pageNumber]="NumberPage"
+            [pageSize]="20"
+            [totalCount]="movieContainer.totalResults || 0"
+          ></app-paging-header>
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
+
+  <div class="row mt-3">
+    <div class="col-3 mb-4" *ngFor="let item of movieContainer.results">
+      <app-movie-item [movie]="item"></app-movie-item>
+    </div>
+  </div>
+  <ng-container *ngIf="movieContainer.totalPages != undefined">
+    <div class="d-flex justify-content-center">
+      <pagination
+        [boundaryLinks]="true"
+        [totalItems]="movieContainer.totalResults || 0"
+        [itemsPerPage]="20"
+        [maxSize]="10"
+        (pageChanged)="onPageChanged($event)"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;"
+      >
+      </pagination>
+    </div>
+  </ng-container>
+</div>

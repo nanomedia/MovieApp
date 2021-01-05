@@ -1,0 +1,46 @@
+<div>
+  <div class="row">
+    <div class="col-3">
+      <img
+        [src]="posterPath + 'w200' + movie.posterPath"
+        class="img-fluid w-100"
+      />
+    </div>
+    <div class="col-6">
+      <div class="row">
+        <h1>{{ movie.originalTitle }}</h1>
+      </div>
+      <div class="row">
+        <h3>Description</h3>
+        <p>
+          {{ movie.overview }}
+        </p>
+      </div>
+      <div class="row">
+        <rating
+          style="color: #0275d8; font-size: 40px"
+          [(ngModel)]="movie.voteAverage"
+          [max]="10"
+          [readonly]="true"
+        ></rating>
+      </div>
+      <div class="row">
+        <b>{{ movie.voteAverage }} Average</b>
+      </div>
+      <ng-container *ngIf="currentUser$ | async">
+        <div class="row">
+          <rating
+            style="color: rgb(160, 55, 55); font-size: 40px"
+            [(ngModel)]="myrate"
+            [max]="10"
+            [readonly]="false"
+            (click)="setRating()"
+          ></rating>
+        </div>
+        <div class="row">
+          <b>(click on the starts to rate)</b>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

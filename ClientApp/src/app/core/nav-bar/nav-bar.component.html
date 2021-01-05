@@ -1,0 +1,42 @@
+<div
+  class="d-flex flex-column flex-md-row align-items-center justify-content-between p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm fixed-top"
+>
+  <div></div>
+  <nav class="my-2 my-md-0 mr-md-3 text-uppercase" style="font-size: larger">
+    <a class="p-2" routerLink="/home" routerLinkActive="active">Home</a>
+    <a class="p-2" routerLink="/movies" routerLinkActive="active">Movies</a>
+    <ng-container *ngIf="(currentUser$ | async)">
+      <a class="p-2" routerLink="/ratedmovies" routerLinkActive="active">My rated movies</a>
+    </ng-container>
+  </nav>
+
+  <div class="d-flex align-items-center">
+    <ng-container *ngIf="(currentUser$ | async) === null">
+      <a
+        routerLink="/account/login"
+        routerLinkActive="active"
+        class="btn btn-outline-secondary mr-2"
+        href="#"
+        >Login</a
+      >
+      <a
+        href="https://www.themoviedb.org/signup"
+        target="blank"
+        class="btn btn-outline-secondary mr-3"
+        >Sign up</a
+      >
+    </ng-container>
+    <ng-container *ngIf="(currentUser$ | async)">
+        <div class="dropdown ml-3 mr-5" dropdown>
+          <a class="dropdown-toggle" dropdownToggle>
+            <strong> Welcome {{ (currentUser$ | async).name }} </strong>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" *dropdownMenu>
+            <a (click)="logout()" class="dropdown-item d-flex align-items-center py-2">
+              <i class="fa fa-sign-out mr-3"></i> Logout
+            </a>
+          </div>
+        </div>
+    </ng-container>
+  </div>
+</div>
